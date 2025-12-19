@@ -1,0 +1,330 @@
+.add-task-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    padding: 1rem;
+}
+
+.add-task-modal {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.add-task-header {
+    background: #40826D;
+    color: #fff;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.add-task-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.add-task-date {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-left: auto;
+}
+
+.add-task-header .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    margin-left: 0.5rem;
+}
+
+.add-task-header .close-btn:hover {
+    opacity: 1;
+}
+
+.add-task-form {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.add-task-form .form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #d4f5c9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.add-task-form .form-group input:focus {
+    outline: none;
+    border-color: #40826D;
+}
+
+.time-pickers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.time-picker-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.time-picker-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #40826D;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.time-picker {
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 0.5rem;
+    gap: 0.25rem;
+}
+
+.time-separator {
+    color: #666;
+    font-size: 1.5rem;
+    font-weight: 300;
+    padding: 0 0.25rem;
+}
+
+.time-arrow {
+    color: #40826D;
+    font-size: 1.25rem;
+    padding: 0 0.5rem;
+}
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+}
+
+.spinner-label {
+    display: none;
+}
+
+.spinner-arrow {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
+    transform: rotate(-90deg);
+}
+
+.spinner-arrow.down {
+    transform: rotate(90deg);
+}
+
+.spinner-arrow:hover {
+    color: #fff;
+}
+
+.spinner-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: ns-resize;
+    padding: 0.25rem 0;
+}
+
+.spinner-item {
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.2;
+    transition: all 0.15s;
+}
+
+.spinner-item.faded {
+    font-size: 1rem;
+    color: #555;
+}
+
+.spinner-item.active {
+    color: #fff;
+}
+
+.add-task-error {
+    background: #fee;
+    color: #c0392b;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.add-task-submit {
+    background: linear-gradient(135deg, #40826D 0%, #2d5c4d 100%);
+    color: #fff;
+    border: none;
+    padding: 0.875rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.add-task-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(64, 130, 109, 0.4);
+}
+
+.add-task-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .add-task-backdrop {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .add-task-modal {
+        max-width: 100%;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .time-pickers {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .time-arrow {
+        transform: rotate(90deg);
+    }
+
+    .time-picker-group {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .time-picker-label {
+        min-width: 40px;
+    }
+}
+
+/* Booking Modal Styles */
+.add-task-header.booking {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.add-task-submit.booking {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.add-task-submit.booking:hover:not(:disabled) {
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+.booking-note {
+    background: #e8f4fc;
+    color: #2980b9;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.add-task-modal.booking-success {
+    text-align: center;
+    padding: 2rem;
+}
+
+.success-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.success-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.success-content h3 {
+    margin: 0;
+    color: #27ae60;
+    font-size: 1.25rem;
+}
+
+.success-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.login-required-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem;
+    gap: 1rem;
+    text-align: center;
+}
+
+.login-icon {
+    font-size: 3rem;
+}
+
+.login-required-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.login-required-content .add-task-submit {
+    width: 100%;
+    max-width: 200px;
+}

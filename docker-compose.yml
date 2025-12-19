@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./ASPNETCORE
+      dockerfile: Dockerfile
+    container_name: bookini-backend
+    ports:
+      - "5003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      # Connection string: assumes Postgres is running on the host machine.
+      # 'host.docker.internal' works on Windows/Mac Docker Desktop.
+      # For Linux, you might need to use the host IP or --network="host".
+      - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5433;Database=bookini_db;Username=windows;Password=windows
+    extra_hosts:
+      - "host.docker.internal:host-gateway" 
+
+  frontend:
+    build:
+      context: ./Frontend/vite-project
+      dockerfile: Dockerfile
+      args:
+        # This will be baked into the static files at build time
+        - VITE_API_BASE_URL=https://bookinibackend.bahwebdev.com
+    container_name: bookini-frontend
+    ports:
+      - "3006:80"
+    depends_on:
+      - backend
