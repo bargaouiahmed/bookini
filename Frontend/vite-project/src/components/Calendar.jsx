@@ -74,7 +74,7 @@ export default function Calendar() {
     const [viewMode, setViewMode] = useState("week");
     const [currentDate, setCurrentDate] = useState(() => new Date());
     const [loading, setLoading] = useState(false);
-    const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [pendingBookings, setPendingBookings] = useState([]);
     const [showPendingModal, setShowPendingModal] = useState(false);
     const [showSentBookingsModal, setShowSentBookingsModal] = useState(false);
@@ -195,6 +195,9 @@ export default function Calendar() {
         };
 
         const handleNewBookingRequest = (booking) => {
+            // Don't notify if I made the booking request
+            if (booking.madeBy === localStorage.getItem("username")) return;
+
             fetchPendingBookings();
             fetchUnreadCount();
             addNotification('booking-request', 'New Booking Request', `${booking.madeBy} wants to book: ${booking.title}`);
@@ -399,7 +402,7 @@ export default function Calendar() {
                         <div
                             key={index}
                             className={`calendar-day ${isToday(day) ? "today" : ""} ${outOfMonth ? "out-of-month" : ""}`}
-                            onClick={() => setSelectedDay({ date: day, data: dayData })}
+                            onClick={() => setSelectedDate(day)}
                         >
 
                             <div className="day-stats">
@@ -416,16 +419,16 @@ export default function Calendar() {
                 })}
             </div>
 
-            {selectedDay && (
+            {selectedDate && (
                 <DayModal
                     fetchMonthData={fetchMonthData}
-                    date={selectedDay.date}
-                    dayData={selectedDay.data}
-                    onClose={() => setSelectedDay(null)}
+                    date={selectedDate}
+                    dayData={getDayData(selectedDate)}
+                    onClose={() => setSelectedDate(null)}
                     onTaskAdded={() => {
-                        delete cacheRef.current[getMonthKey(selectedDay.date)];
-                        fetchMonthData(selectedDay.date);
-                        setSelectedDay(null);
+                        delete cacheRef.current[getMonthKey(selectedDate)];
+                        fetchMonthData(selectedDate);
+                        // Do not close modal
                     }}
                     pendingBookings={pendingBookings}
                     onBookingResponded={handleBookingResponded}

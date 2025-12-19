@@ -428,8 +428,8 @@ public class CalenderService(AppDbContext context, IAuthService authService, IHu
         {
             Message = $"{booking.BookedUser?.Username} {booking.Status.ToLower()} your booking: {booking.Title}",
             BookingId = booking.Id,
-            BookerId = booking.BookerId,
-            BookedId = userId
+            BookerId = userId,
+            BookedId = booking.BookerId
         };
         await context.BookingNotifications.AddAsync(responseNotification);
         await context.SaveChangesAsync();
@@ -500,7 +500,7 @@ public class CalenderService(AppDbContext context, IAuthService authService, IHu
         return await context.BookingNotifications
             .Include(n => n.Booking)
             .Include(n => n.Booker)
-            .Where(n => n.BookerId == userId || n.BookedId == userId)
+            .Where(n => n.BookedId == userId)
             .OrderByDescending(n => n.CreatedAt)
             .Take(50)
             .ToListAsync();
@@ -510,7 +510,7 @@ public class CalenderService(AppDbContext context, IAuthService authService, IHu
     {
         int userId = authService.GetUserIdFromToken();
         var notification = await context.BookingNotifications
-            .FirstOrDefaultAsync(n => n.Id == notificationId && (n.BookerId == userId || n.BookedId == userId));
+            .FirstOrDefaultAsync(n => n.Id == notificationId && n.BookedId == userId);
 
         if (notification == null) return false;
 

@@ -489,3 +489,14 @@
 .edit-save:hover {
     background: #357a5b;
 }
+
+/* Booking event style (Blue/Purple) */
+.timeline-event.booking-event {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.timeline-event.booking-event:hover {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}

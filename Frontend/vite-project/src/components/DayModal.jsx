@@ -146,7 +146,7 @@ export default function DayModal({ fetchMonthData, dayData, date, onClose, onTas
         }
     };
 
-    const isTask = (event) => !event.location && !event.madeBy?.includes("→");
+    const isTask = (event) => !event.status;
     const isOwnBooking = (event) => event.madeBy?.startsWith("You →");
 
     return (
@@ -189,13 +189,13 @@ export default function DayModal({ fetchMonthData, dayData, date, onClose, onTas
                                         const durationHours = (pos.endMinutes - pos.startMinutes) / 60;
                                         const minHeightPx = Math.max(durationHours * 50, 70);
                                         const isDeleting = deletingId === event.id;
-                                        const canEdit = isTask(event);
-                                        const canDelete = isTask(event) || isOwnBooking(event);
+                                        const canEdit = isTask(event) || isOwnBooking(event);
+                                        const canDelete = isTask(event) || event.madeBy?.includes("→");
 
                                         return (
                                             <div
                                                 key={`confirmed-${idx}`}
-                                                className={`timeline-event ${isDeleting ? 'deleting' : ''}`}
+                                                className={`timeline-event ${isDeleting ? 'deleting' : ''} ${event.madeBy ? 'booking-event' : ''}`}
                                                 style={{
                                                     top: `${pos.top}%`,
                                                     minHeight: `${minHeightPx}px`

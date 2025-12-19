@@ -75,7 +75,7 @@ export default function SharedCalendar() {
     const [viewMode, setViewMode] = useState("week");
     const [currentDate, setCurrentDate] = useState(() => new Date());
     const [loading, setLoading] = useState(false);
-    const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
     const cacheRef = useRef({});
 
@@ -302,7 +302,7 @@ export default function SharedCalendar() {
                         <div
                             key={index}
                             className={`calendar-day ${isToday(day) ? "today" : ""} ${outOfMonth ? "out-of-month" : ""}`}
-                            onClick={() => setSelectedDay({ date: day, data: dayData })}
+                            onClick={() => setSelectedDate(day)}
                         >
                             <div className="day-stats">
                                 {dayData.count > 0 && (
@@ -315,16 +315,16 @@ export default function SharedCalendar() {
                 })}
             </div>
 
-            {selectedDay && (
+            {selectedDate && (
                 <SharedDayModal
                     userId={userId}
-                    date={selectedDay.date}
-                    dayData={selectedDay.data}
-                    onClose={() => setSelectedDay(null)}
+                    date={selectedDate}
+                    dayData={getDayData(selectedDate)}
+                    onClose={() => setSelectedDate(null)}
                     onBookingAdded={() => {
-                        delete cacheRef.current[getMonthKey(selectedDay.date)];
-                        fetchMonthData(selectedDay.date);
-                        setSelectedDay(null);
+                        delete cacheRef.current[getMonthKey(selectedDate)];
+                        fetchMonthData(selectedDate);
+                        // Do not close modal
                     }}
                 />
             )}
